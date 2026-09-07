@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Spectrum Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#191B3A;
+    --paper:#FAF8F5;
+    --paper-dim:#F1EEE7;
+    --violet:#7B5CFA;   /* Computer Science */
+    --sky:#2FB8E6;      /* Web Development */
+    --coral:#FF6B6B;    /* Graphic Design */
+    --gold:#FFBB3C;     /* English */
+    --mint:#2FD9A0;     /* Mathematics */
+    --magenta:#FF4FA0;  /* Science */
+    --line:rgba(25,27,58,0.12);
+    --shadow: 0 12px 30px rgba(25,27,58,0.10);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Space Grotesk',sans-serif;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  .mono{
+    font-family:'JetBrains Mono',monospace;
+    letter-spacing:0.02em;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;cursor:pointer;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+  .spectrum-bar{
+    height:6px;width:100%;
+    background:linear-gradient(90deg,var(--violet),var(--sky),var(--mint),var(--gold),var(--coral),var(--magenta));
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  header.site-nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(250,248,245,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 28px;max-width:1180px;margin:0 auto;
+  }
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.15rem;}
+  .logo-mark{
+    width:30px;height:30px;border-radius:9px;flex:none;
+    background:linear-gradient(135deg,var(--violet),var(--sky) 35%,var(--mint) 65%,var(--gold));
+  }
+  nav.links{display:flex;gap:2px;flex-wrap:wrap;}
+  nav.links button{
+    background:none;border:none;padding:9px 13px;border-radius:999px;
+    font-size:0.92rem;font-weight:500;color:var(--ink);opacity:0.72;
+  }
+  nav.links button:hover{opacity:1;background:var(--paper-dim);}
+  nav.links button.active{opacity:1;background:var(--ink);color:var(--paper);}
+  .btn-apply{
+    background:var(--violet);color:#fff;border:none;padding:11px 20px;
+    border-radius:999px;font-weight:600;font-size:0.92rem;
+    box-shadow:0 6px 16px rgba(123,92,250,0.35);
+    transition:transform .15s ease;
+  }
+  .btn-apply:hover{transform:translateY(-2px);}
+  .nav-toggle{display:none;background:none;border:1px solid var(--line);border-radius:8px;padding:8px 10px;}
+
+  /* ---------- SECTIONS GENERIC ---------- */
+  section{display:none;}
+  section.active{display:block;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.76rem;text-transform:uppercase;letter-spacing:0.12em;
+    color:var(--violet);font-weight:600;margin-bottom:10px;display:block;
+  }
+  .section-pad{padding:76px 0;}
+  .section-head{max-width:640px;margin-bottom:44px;}
+  .section-head h2{font-size:2.1rem;font-weight:700;line-height:1.15;}
+  .section-head p{margin-top:12px;color:rgba(25,27,58,0.68);font-size:1.02rem;line-height:1.6;}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:64px 0 40px;overflow:hidden;}
+  .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center;}
+  .hero h1{font-size:3.1rem;line-height:1.06;font-weight:700;}
+  .hero h1 span{color:var(--violet);}
+  .hero p.lead{margin-top:20px;font-size:1.12rem;color:rgba(25,27,58,0.7);max-width:480px;line-height:1.6;}
+  .hero-ctas{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--ink);color:#fff;padding:14px 26px;border-radius:12px;
+    font-weight:600;border:none;font-size:0.98rem;
+  }
+  .btn-ghost{
+    background:transparent;color:var(--ink);padding:14px 26px;border-radius:12px;
+    font-weight:600;border:1.5px solid var(--line);font-size:0.98rem;
+  }
+  .hero-stats{display:flex;gap:28px;margin-top:40px;}
+  .hero-stats div strong{display:block;font-family:'Space Grotesk';font-size:1.5rem;}
+  .hero-stats div span{font-size:0.8rem;color:rgba(25,27,58,0.6);}
+
+  /* pinboard notice card in hero */
+  .pinboard{
+    background:#EDE9E0;border-radius:22px;padding:26px;position:relative;
+    box-shadow:var(--shadow);transform:rotate(1.5deg);
+  }
+  .pinboard::before{
+    content:"";position:absolute;top:-10px;left:28px;width:20px;height:20px;
+    background:var(--coral);border-radius:50%;box-shadow:0 3px 6px rgba(0,0,0,0.25);
+  }
+  .pin-note{
+    background:#fff;border-radius:12px;padding:16px 18px;margin-bottom:14px;
+    box-shadow:0 6px 14px rgba(25,27,58,0.08);transform:rotate(-1.2deg);
+  }
+  .pin-note:nth-child(2){transform:rotate(0.8deg);}
+  .pin-note:nth-child(3){transform:rotate(-0.5deg);margin-bottom:0;}
+  .pin-note .tag{font-family:'JetBrains Mono';font-size:0.68rem;text-transform:uppercase;font-weight:600;padding:3px 8px;border-radius:6px;display:inline-block;margin-bottom:8px;}
+  .pin-note p{margin:0;font-size:0.9rem;font-weight:600;}
+  .pin-note small{color:rgba(25,27,58,0.55);font-size:0.76rem;}
+
+  /* ---------- INTRO STRIP ---------- */
+  .intro-strip{background:var(--ink);color:var(--paper);padding:56px 0;}
+  .intro-strip .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
+  .intro-strip h2{font-size:1.7rem;color:#fff;}
+  .intro-strip p{color:rgba(250,248,245,0.72);line-height:1.7;margin-top:14px;}
+
+  /* ---------- COURSE CARDS ---------- */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+  .course-card{
+    background:#fff;border-radius:18px;padding:0 0 22px;overflow:hidden;
+    border:1px solid var(--line);transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .course-card:hover{transform:translateY(-5px);box-shadow:var(--shadow);}
+  .course-thumb{height:120px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;}
+  .course-card .body{padding:20px 22px 0;}
+  .course-card h3{font-size:1.15rem;font-weight:700;}
+  .course-card .meta{display:flex;gap:10px;margin:10px 0;font-size:0.78rem;}
+  .chip{
+    font-family:'JetBrains Mono';padding:4px 9px;border-radius:6px;font-weight:600;
+    background:var(--paper-dim);
+  }
+  .course-card p.desc{font-size:0.9rem;color:rgba(25,27,58,0.66);line-height:1.55;margin:10px 0 16px;}
+  .course-card .learn{font-size:0.82rem;color:rgba(25,27,58,0.72);margin:0 0 16px;padding-left:0;list-style:none;}
+  .course-card .learn li{padding-left:16px;position:relative;margin-bottom:6px;}
+  .course-card .learn li::before{content:"→";position:absolute;left:0;font-weight:700;}
+  .course-card .foot{display:flex;justify-content:space-between;align-items:center;padding:0 22px;}
+  .course-card .teacher{font-size:0.8rem;color:rgba(25,27,58,0.6);}
+  .link-apply{font-weight:700;font-size:0.86rem;}
+
+  /* ---------- WHY CHOOSE ---------- */
+  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .why-card{padding:26px 22px;border-radius:16px;background:var(--paper-dim);}
+  .why-card .icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:14px;}
+  .why-card h3{font-size:1.02rem;margin-bottom:6px;}
+  .why-card p{font-size:0.86rem;color:rgba(25,27,58,0.62);line-height:1.5;margin:0;}
+
+  /* ---------- TEACHERS ---------- */
+  .teacher-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;text-align:center;}
+  .avatar{
+    width:76px;height:76px;border-radius:50%;margin:0 auto 14px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk';font-weight:700;color:#fff;font-size:1.3rem;
+  }
+  .teacher-card h3{font-size:1.02rem;}
+  .teacher-card .subject{font-size:0.8rem;color:var(--violet);font-weight:600;margin:4px 0 10px;}
+  .teacher-card .qual{font-size:0.8rem;color:rgba(25,27,58,0.6);line-height:1.5;}
+  .teacher-card .exp{font-family:'JetBrains Mono';font-size:0.72rem;margin-top:10px;display:inline-block;background:var(--paper-dim);padding:4px 10px;border-radius:6px;}
+  .teacher-bio{font-size:0.82rem;color:rgba(25,27,58,0.6);margin-top:10px;line-height:1.5;}
+
+  /* ---------- ACHIEVEMENTS / STATS ---------- */
+  .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;}
+  .stat-strip div strong{font-family:'Space Grotesk';font-size:2.3rem;display:block;}
+  .stat-strip div span{font-size:0.82rem;color:rgba(25,27,58,0.6);}
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testi-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;}
+  .testi-card p{font-size:0.95rem;line-height:1.6;color:rgba(25,27,58,0.78);}
+  .testi-foot{display:flex;align-items:center;gap:12px;margin-top:16px;}
+  .testi-foot .avatar{width:38px;height:38px;font-size:0.9rem;margin:0;}
+  .testi-foot strong{font-size:0.86rem;display:block;}
+  .testi-foot span{font-size:0.76rem;color:rgba(25,27,58,0.55);}
+
+  /* ---------- ANNOUNCEMENTS ---------- */
+  .notice-row{
+    display:flex;justify-content:space-between;align-items:flex-start;gap:20px;
+    padding:20px 0;border-bottom:1px solid var(--line);
+  }
+  .notice-row:last-child{border-bottom:none;}
+  .notice-row h3{font-size:1rem;font-weight:700;}
+  .notice-row p{font-size:0.86rem;color:rgba(25,27,58,0.6);margin:6px 0 0;}
+  .notice-date{
+    font-family:'JetBrains Mono';font-size:0.78rem;font-weight:600;color:#fff;
+    background:var(--ink);padding:6px 12px;border-radius:8px;white-space:nowrap;flex:none;
+  }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+  .map-box{
+    background:linear-gradient(135deg,var(--paper-dim),#fff);border:1px dashed var(--line);
+    border-radius:18px;height:280px;display:flex;align-items:center;justify-content:center;
+    color:rgba(25,27,58,0.45);font-family:'JetBrains Mono';font-size:0.85rem;
+  }
+  .contact-item{display:flex;gap:14px;margin-bottom:18px;align-items:flex-start;}
+  .contact-item .ic{width:38px;height:38px;border-radius:10px;background:var(--paper-dim);display:flex;align-items:center;justify-content:center;flex:none;}
+  .contact-item strong{display:block;font-size:0.95rem;}
+  .contact-item span{font-size:0.85rem;color:rgba(25,27,58,0.6);}
+  .form-field{margin-bottom:14px;}
+  .form-field label{font-size:0.82rem;font-weight:600;display:block;margin-bottom:6px;}
+  .form-field input, .form-field textarea, .form-field select{
+    width:100%;padding:11px 13px;border-radius:10px;border:1px solid var(--line);
+    font-family:'Inter';font-size:0.92rem;background:#fff;
+  }
+  footer{background:var(--ink);color:rgba(250,248,245,0.75);padding:56px 0 26px;margin-top:0;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px;}
+  footer h4{color:#fff;font-size:0.9rem;margin-bottom:14px;}
+  footer a, footer p{font-size:0.85rem;color:rgba(250,248,245,0.65);line-height:2;}
+  .footer-bottom{border-top:1px solid rgba(250,248,245,0.15);margin-top:40px;padding-top:22px;font-size:0.78rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:rgba(250,248,245,0.45);}
+  .social-row{display:flex;gap:10px;}
+  .social-row a{width:34px;height:34px;border-radius:9px;background:rgba(250,248,245,0.08);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.85rem;}
+
+  /* ---------- ABOUT PAGE ---------- */
+  .value-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+  .value-card{padding:22px;border-radius:14px;border:1px solid var(--line);}
+  .value-card h3{font-size:1rem;margin-bottom:6px;}
+  .value-card p{font-size:0.87rem;color:rgba(25,27,58,0.62);margin:0;line-height:1.55;}
+  .director-msg{display:grid;grid-template-columns:220px 1fr;gap:32px;align-items:center;background:var(--paper-dim);padding:36px;border-radius:20px;}
+  .director-msg .avatar{width:150px;height:150px;font-size:2.4rem;}
+  .director-msg blockquote{margin:0;font-size:1.05rem;line-height:1.65;font-style:italic;}
+  .director-msg cite{display:block;margin-top:14px;font-style:normal;font-weight:700;font-size:0.9rem;}
+
+  /* ---------- ADMISSIONS ---------- */
+  .steps{counter-reset:step;}
+  .step-row{display:flex;gap:18px;margin-bottom:22px;}
+  .step-num{
+    counter-increment:step;flex:none;width:40px;height:40px;border-radius:50%;
+    background:var(--violet);color:#fff;display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk';font-weight:700;
+  }
+  .step-row h3{font-size:1rem;margin-bottom:4px;}
+  .step-row p{font-size:0.86rem;color:rgba(25,27,58,0.6);margin:0;}
+  .admission-form{background:#fff;border:1px solid var(--line);border-radius:20px;padding:32px;box-shadow:var(--shadow);}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .success-box{
+    display:none;text-align:center;padding:40px 20px;background:rgba(47,217,160,0.1);
+    border:1px solid var(--mint);border-radius:16px;
+  }
+  .success-box.show{display:block;}
+  .success-box .success-icon{width:52px;height:52px;border-radius:50%;background:var(--mint);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 14px;}
+
+  /* ---------- GALLERY ---------- */
+  .gallery-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px;}
+  .gtab{padding:8px 16px;border-radius:999px;border:1px solid var(--line);font-size:0.84rem;font-weight:600;background:#fff;}
+  .gtab.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .gtile{
+    aspect-ratio:1;border-radius:14px;display:flex;align-items:center;justify-content:center;
+    font-size:1.6rem;color:rgba(255,255,255,0.9);
+  }
+
+  /* utilities */
+  .center{text-align:center;}
+  .mt-56{margin-top:56px;}
+
+  @media(max-width:900px){
+    nav.links{display:none;}
+    .nav-toggle{display:inline-flex;}
+    .hero-grid, .intro-strip .wrap, .contact-grid, .director-msg, .form-grid, .footer-grid{grid-template-columns:1fr;}
+    .grid-3, .grid-2, .why-grid, .value-grid, .stat-strip, .gallery-grid{grid-template-columns:repeat(2,1fr);}
+    .hero h1{font-size:2.2rem;}
+  }
+  @media(max-width:560px){
+    .grid-3, .why-grid, .stat-strip, .gallery-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="logo-mark"></span>Spectrum Academy</div>
+    <nav class="links" id="navLinks">
+      <button data-page="home" class="active">Home</button>
+      <button data-page="about">About</button>
+      <button data-page="courses">Courses</button>
+      <button data-page="teachers">Teachers</button>
+      <button data-page="admissions">Admissions</button>
+      <button data-page="gallery">Gallery</button>
+      <button data-page="notices">Notices</button>
+      <button data-page="contact">Contact</button>
+    </nav>
+    <button class="btn-apply" onclick="goTo('admissions')">Apply Now</button>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<section id="home" class="active">
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Admissions open · 2026 session</span>
+        <h1>Find your subject.<br>Find your <span>colour</span>.</h1>
+        <p class="lead">Spectrum Academy runs six hands-on programmes — from code to canvas — taught by working professionals in small, focused batches.</p>
+        <div class="hero-ctas">
+          <button class="btn-primary" onclick="goTo('admissions')">Apply Now</button>
+          <button class="btn-ghost" onclick="goTo('courses')">Browse courses</button>
+        </div>
+        <div class="hero-stats">
+          <div><strong>1,240+</strong><span>Students taught</span></div>
+          <div><strong>18</strong><span>Faculty members</span></div>
+          <div><strong>92%</strong><span>Course completion</span></div>
+        </div>
+      </div>
+      <div class="pinboard">
+        <div class="pin-note">
+          <span class="tag" style="background:rgba(255,107,107,0.15);color:var(--coral);">Admissions</span>
+          <p>Admissions Open — 2026 Session</p>
+          <small>Last date to apply: 30 August 2026</small>
+        </div>
+        <div class="pin-note">
+          <span class="tag" style="background:rgba(47,184,230,0.15);color:var(--sky);">Event</span>
+          <p>Web Development batch demo class</p>
+          <small>Every Saturday, 4:00 PM</small>
+        </div>
+        <div class="pin-note">
+          <span class="tag" style="background:rgba(47,217,160,0.15);color:var(--mint);">Result</span>
+          <p>Mid-term results published</p>
+          <small>Check the notice board for details</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="spectrum-bar"></div>
+
+  <div class="intro-strip">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow" style="color:var(--mint);">The academy</span>
+        <h2>Six subjects, one campus, one standard of teaching.</h2>
+      </div>
+      <p>Spectrum Academy was built on a simple idea: every subject deserves the same rigour, whether it's a programming language or a paintbrush. Our instructors are practitioners first — designers who ship, developers who deploy, writers who publish — and they teach the way they actually work.</p>
+    </div>
+  </div>
+
+  <div class="section-pad wrap">
+    <div class="section-head">
+      <span class="eyebrow">Popular courses</span>
+      <h2>Pick a subject to start with</h2>
+      <p>Every course runs in small batches with a fixed syllabus, a named instructor, and a certificate on completion.</p>
+    </div>
+    <div class="grid-3" id="homeCoursesGrid"></div>
+  </div>
+
+  <div class="section-pad wrap" style="padding-top:0;">
+    <div class="section-head">
+      <span class="eyebrow">Why choose us</span>
+      <h2>What makes a Spectrum batch different</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><div class="icon" style="background:rgba(123,92,250,0.15);">🎯</div><h3>Small batches</h3><p>Capped class sizes so every student gets direct feedback, every session.</p></div>
+      <div class="why-card"><div class="icon" style="background:rgba(47,184,230,0.15);">🧑‍🏫</div><h3>Working instructors</h3><p>Taught by people who use these skills professionally, not just teach them.</p></div>
+      <div class="why-card"><div class="icon" style="background:rgba(255,187,60,0.15);">📜</div><h3>Certified outcomes</h3><p>A completion certificate and a portfolio piece from every course.</p></div>
+      <div class="why-card"><div class="icon" style="background:rgba(255,107,107,0.15);">💬</div><h3>Direct support</h3><p>A dedicated batch group for questions, all the way through the course.</p></div>
+    </div>
+  </div>
+
+  <div class="section-pad wrap" style="padding-top:0;">
+    <div class="section-head">
+      <span class="eyebrow">Our faculty</span>
+      <h2>Meet a few of the instructors</h2>
+    </div>
+    <div class="grid-3" id="homeTeachersGrid"></div>
+  </div>
+
+  <div class="section-pad wrap" style="padding-top:0;">
+    <div class="section-head"><span class="eyebrow">Achievements</span><h2>Spectrum Academy, in numbers</h2></div>
+    <div class="stat-strip">
+      <div><strong>1,240+</strong><span>Students taught since 2019</span></div>
+      <div><strong>96</strong><span>Batches completed</span></div>
+      <div><strong>34</strong><span>Industry award entries won</span></div>
+      <div><strong>4.8/5</strong><span>Average student rating</span></div>
+    </div>
+  </div>
+
+  <div class="section-pad wrap" style="padding-top:0;">
+    <div class="section-head"><span class="eyebrow">Testimonials</span><h2>What students say</h2></div>
+    <div class="grid-3" id="homeTestimonialsGrid"></div>
+  </div>
+
+  <div class="section-pad wrap" style="padding-top:0;">
+    <div class="section-head"><span class="eyebrow">Latest announcements</span><h2>From the notice board</h2></div>
+    <div id="homeNoticesList"></div>
+  </div>
+
+  <div class="section-pad wrap" style="padding-top:0;" id="homeContactPreview"></div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="section-pad wrap">
+    <div class="section-head">
+      <span class="eyebrow">About us</span>
+      <h2>A academy built by practitioners, for beginners</h2>
+      <p>Spectrum Academy opened in 2019 with two rented classrooms and one course. Today we run six full-time programmes and a growing evening batch schedule, but the approach hasn't changed: learn by doing, from someone who does it for a living.</p>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:56px;">
+      <div class="value-card" style="background:rgba(123,92,250,0.06);border-color:transparent;">
+        <span class="eyebrow" style="color:var(--violet);">Mission</span>
+        <h3 style="font-size:1.15rem;">Make skilled instruction affordable and local</h3>
+        <p>To give students a practical, job-ready skill in a subject they choose — taught close to home, at a fee families can plan for.</p>
+      </div>
+      <div class="value-card" style="background:rgba(47,184,230,0.06);border-color:transparent;">
+        <span class="eyebrow" style="color:var(--sky);">Vision</span>
+        <h3 style="font-size:1.15rem;">A campus for every kind of learner</h3>
+        <p>To be the first academy families think of for technology, design, language, and science education in the region.</p>
+      </div>
+    </div>
+
+    <div class="section-head"><span class="eyebrow">Our values</span><h2>What we hold ourselves to</h2></div>
+    <div class="value-grid mt-56" style="margin-top:0;margin-bottom:56px;">
+      <div class="value-card"><h3>🎓 Practical first</h3><p>Every course is built around a project or portfolio piece, not just theory.</p></div>
+      <div class="value-card"><h3>🤝 Small and personal</h3><p>Batches stay small enough that instructors know every student by name.</p></div>
+      <div class="value-card"><h3>📈 Honest progress</h3><p>Clear, regular feedback — students always know where they stand.</p></div>
+      <div class="value-card"><h3>🌍 Open to all</h3><p>Flexible fee plans and evening batches so more students can attend.</p></div>
+    </div>
+
+    <div class="section-head"><span class="eyebrow">Director's message</span><h2>A note from our director</h2></div>
+    <div class="director-msg mt-56" style="margin-top:0;margin-bottom:56px;">
+      <div class="avatar" style="background:linear-gradient(135deg,var(--violet),var(--magenta));">SA</div>
+      <div>
+        <blockquote>"We started Spectrum Academy because we felt courses in our city taught students what to memorise, not what to build. Every instructor on our faculty is still working in their field — that's non-negotiable for us, and it's why our students walk out with something real to show for their time here."</blockquote>
+        <cite>Sana Ahmed — Founding Director</cite>
+      </div>
+    </div>
+
+    <div class="section-head"><span class="eyebrow">Campus & facilities</span><h2>What's on campus</h2></div>
+    <div class="why-grid" style="margin-bottom:56px;">
+      <div class="why-card"><div class="icon" style="background:rgba(123,92,250,0.15);">💻</div><h3>Computer lab</h3><p>30 workstations for the Computer Science and Web Development tracks.</p></div>
+      <div class="why-card"><div class="icon" style="background:rgba(255,107,107,0.15);">🎨</div><h3>Design studio</h3><p>A dedicated studio with drawing tablets for Graphic Design students.</p></div>
+      <div class="why-card"><div class="icon" style="background:rgba(47,217,160,0.15);">🔬</div><h3>Science lab</h3><p>A working lab for practical Science demonstrations.</p></div>
+      <div class="why-card"><div class="icon" style="background:rgba(255,187,60,0.15);">📚</div><h3>Reading room</h3><p>A quiet study space open to all enrolled students.</p></div>
+    </div>
+
+    <div class="section-head"><span class="eyebrow">Achievements</span><h2>Recognition so far</h2></div>
+    <div class="stat-strip">
+      <div><strong>2019</strong><span>Academy founded</span></div>
+      <div><strong>6</strong><span>Regional teaching awards</span></div>
+      <div><strong>1,240+</strong><span>Graduates</span></div>
+      <div><strong>96%</strong><span>Would recommend us</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COURSES ============ -->
+<section id="courses">
+  <div class="section-pad wrap">
+    <div class="section-head">
+      <span class="eyebrow">Courses</span>
+      <h2>All programmes</h2>
+      <p>Six subjects, each with a fixed duration, a named instructor, and a clear list of what you'll walk away knowing.</p>
+    </div>
+    <div class="grid-3" id="allCoursesGrid"></div>
+  </div>
+</section>
+
+<!-- ============ TEACHERS ============ -->
+<section id="teachers">
+  <div class="section-pad wrap">
+    <div class="section-head">
+      <span class="eyebrow">Teachers</span>
+      <h2>Our faculty</h2>
+      <p>Every instructor at Spectrum Academy works in their field outside the classroom too.</p>
+    </div>
+    <div class="grid-3" id="allTeachersGrid"></div>
+  </div>
+</section>
+
+<!-- ============ ADMISSIONS ============ -->
+<section id="admissions">
+  <div class="section-pad wrap">
+    <div class="section-head">
+      <span class="eyebrow">Admissions</span>
+      <h2>How to join Spectrum Academy</h2>
+      <p>Five steps from application to your first class.</p>
+    </div>
+
+    <div class="grid-2" style="align-items:start;gap:48px;">
+      <div class="steps">
+        <div class="step-row"><div class="step-num">1</div><div><h3>Submit the online application</h3><p>Fill in the form on this page with your details and course of interest.</p></div></div>
+        <div class="step-row"><div class="step-num">2</div><div><h3>Submit your documents</h3><p>Bring or upload your previous certificates and ID for verification.</p></div></div>
+        <div class="step-row"><div class="step-num">3</div><div><h3>Get admission confirmation</h3><p>Our admissions team reviews your application and confirms your seat.</p></div></div>
+        <div class="step-row"><div class="step-num">4</div><div><h3>Submit your fee</h3><p>Pay the course fee at the campus office or via bank transfer.</p></div></div>
+        <div class="step-row"><div class="step-num">5</div><div><h3>Classes start</h3><p>You'll receive your batch timetable and join your first class.</p></div></div>
+      </div>
+
+      <div class="admission-form">
+        <h3 style="font-size:1.15rem;margin-bottom:18px;">Online application</h3>
+        <form id="admissionForm">
+          <div class="form-grid">
+            <div class="form-field"><label>Student name</label><input required type="text" name="studentName"></div>
+            <div class="form-field"><label>Father's name</label><input required type="text" name="fatherName"></div>
+            <div class="form-field"><label>Date of birth</label><input required type="date" name="dob"></div>
+            <div class="form-field"><label>Phone</label><input required type="tel" name="phone"></div>
+            <div class="form-field" style="grid-column:1/-1;"><label>Email</label><input required type="email" name="email"></div>
+            <div class="form-field" style="grid-column:1/-1;"><label>Address</label><input required type="text" name="address"></div>
+            <div class="form-field"><label>Course / class</label>
+              <select required name="course" id="courseSelect">
+                <option value="">Select a course</option>
+              </select>
+            </div>
+            <div class="form-field"><label>Previous education</label><input required type="text" name="prevEducation"></div>
+            <div class="form-field" style="grid-column:1/-1;"><label>Upload documents</label><input type="file" name="documents"></div>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;margin-top:8px;">Submit application</button>
+        </form>
+        <div class="success-box" id="admissionSuccess">
+          <div class="success-icon">✓</div>
+          <h3 style="font-size:1.05rem;">Application received</h3>
+          <p style="font-size:0.88rem;color:rgba(25,27,58,0.6);margin-top:8px;">We'll contact you on the phone number you provided once your application is reviewed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section id="gallery">
+  <div class="section-pad wrap">
+    <div class="section-head">
+      <span class="eyebrow">Gallery</span>
+      <h2>Life on campus</h2>
+    </div>
+    <div class="gallery-tabs" id="galleryTabs"></div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </div>
+</section>
+
+<!-- ============ NOTICES ============ -->
+<section id="notices">
+  <div class="section-pad wrap">
+    <div class="section-head">
+      <span class="eyebrow">Notice board</span>
+      <h2>News & announcements</h2>
+    </div>
+    <div id="allNoticesList"></div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="section-pad wrap">
+    <div class="section-head">
+      <span class="eyebrow">Contact us</span>
+      <h2>Get in touch</h2>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <div class="contact-item"><div class="ic">📍</div><div><strong>Campus address</strong><span>14 Model Town Road, near City Park</span></div></div>
+        <div class="contact-item"><div class="ic">📞</div><div><strong>Phone</strong><span>+92 300 1234567</span></div></div>
+        <div class="contact-item"><div class="ic">💬</div><div><strong>WhatsApp</strong><span>+92 300 1234567</span></div></div>
+        <div class="contact-item"><div class="ic">✉️</div><div><strong>Email</strong><span>zbatt8196@gmail.com</span></div></div>
+        <div class="social-row" style="margin-top:20px;">
+          <a href="#">FB</a><a href="#">IG</a><a href="#">YT</a><a href="#">IN</a>
+        </div>
+      </div>
+      <div class="map-box">Google Map embed placeholder</div>
+    </div>
+
+    <div class="admission-form" style="margin-top:48px;max-width:640px;">
+      <h3 style="font-size:1.1rem;margin-bottom:18px;">Send us a message</h3>
+      <form id="contactForm">
+        <div class="form-field"><label>Name</label><input required type="text"></div>
+        <div class="form-field"><label>Email</label><input required type="email"></div>
+        <div class="form-field"><label>Message</label><textarea required rows="4"></textarea></div>
+        <button type="submit" class="btn-primary" style="width:100%;">Send message</button>
+      </form>
+      <div class="success-box" id="contactSuccess">
+        <div class="success-icon">✓</div>
+        <h3 style="font-size:1.05rem;">Message sent</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <div class="logo" style="color:#fff;margin-bottom:14px;"><span class="logo-mark"></span>Spectrum Academy</div>
+      <p style="max-width:260px;">Six subjects, one standard of teaching. Admissions open now for the 2026 session.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <a href="#" onclick="goTo('about')">About us</a><br>
+      <a href="#" onclick="goTo('courses')">Courses</a><br>
+      <a href="#" onclick="goTo('teachers')">Teachers</a><br>
+      <a href="#" onclick="goTo('gallery')">Gallery</a>
+    </div>
+    <div>
+      <h4>Students</h4>
+      <a href="#" onclick="goTo('admissions')">Admissions</a><br>
+      <a href="#" onclick="goTo('notices')">Notices</a><br>
+      <a href="#">Student login</a><br>
+      <a href="#">Teacher login</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p>14 Model Town Road</p>
+      <p>+92 300 1234567</p>
+      <p>zbatt8196@gmail.com</p>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 2026 Spectrum Academy. All rights reserved.</span>
+    <span>Built for the 2026 admissions season.</span>
+  </div>
+</footer>
+
+<script>
+const COURSES = [
+  {id:'cs', name:'Computer Science', color:'violet', hex:'#7B5CFA', icon:'🖥️', duration:'6 months', fee:'PKR 18,000', teacher:'Ahmed Raza',
+    desc:'Core programming fundamentals, data structures, and problem solving using Python and C++.',
+    learn:['Programming fundamentals','Data structures & algorithms','Object-oriented programming','A final capstone project']},
+  {id:'wd', name:'Web Development', color:'sky', hex:'#2FB8E6', icon:'🌐', duration:'4 months', fee:'PKR 15,000', teacher:'Bilal Hassan',
+    desc:'Build real, responsive websites from scratch with HTML, CSS, JavaScript, and a modern framework.',
+    learn:['HTML, CSS & JavaScript','Responsive layout design','A modern JS framework','A deployed portfolio site']},
+  {id:'gd', name:'Graphic Design', color:'coral', hex:'#FF6B6B', icon:'🎨', duration:'3 months', fee:'PKR 12,000', teacher:'Ayesha Khan',
+    desc:'Learn visual design principles and industry-standard tools to design for print and digital.',
+    learn:['Design principles & colour theory','Adobe Photoshop & Illustrator','Branding & typography','A personal design portfolio']},
+  {id:'en', name:'English Language', color:'gold', hex:'#FFBB3C', icon:'📘', duration:'2 months', fee:'PKR 8,000', teacher:'Sara Malik',
+    desc:'Build spoken and written fluency for academic, professional, and everyday communication.',
+    learn:['Grammar & sentence structure','Spoken fluency practice','Professional writing','Interview & presentation skills']},
+  {id:'ma', name:'Mathematics', color:'mint', hex:'#2FD9A0', icon:'📐', duration:'6 months', fee:'PKR 10,000', teacher:'Usman Tariq',
+    desc:'Strengthen core mathematics for school and entry-test preparation, from algebra to calculus.',
+    learn:['Algebra & trigonometry','Calculus fundamentals','Problem-solving techniques','Entry-test style practice']},
+  {id:'sc', name:'Science', color:'magenta', hex:'#FF4FA0', icon:'🔬', duration:'6 months', fee:'PKR 10,000', teacher:'Hina Farooq',
+    desc:'Physics, chemistry, and biology fundamentals with hands-on lab demonstrations.',
+    learn:['Physics & chemistry basics','Biology fundamentals','Hands-on lab sessions','Exam preparation']},
+];
+
+const TEACHERS = [
+  {name:'Ahmed Raza', subject:'Computer Science', qual:'MS Computer Science', exp:'8 years experience', bio:'Software engineer turned educator, previously built backend systems for two fintech startups.', hex:'#7B5CFA'},
+  {name:'Bilal Hassan', subject:'Web Development', qual:'BS Software Engineering', exp:'6 years experience', bio:'Freelance web developer who has shipped over 40 client websites.', hex:'#2FB8E6'},
+  {name:'Ayesha Khan', subject:'Graphic Design', qual:'BFA Visual Arts', exp:'7 years experience', bio:'Brand designer working with local businesses on identity and packaging.', hex:'#FF6B6B'},
+  {name:'Sara Malik', subject:'English Language', qual:'MA English Literature', exp:'10 years experience', bio:'Former university lecturer specialising in spoken fluency and academic writing.', hex:'#FFBB3C'},
+  {name:'Usman Tariq', subject:'Mathematics', qual:'MSc Mathematics', exp:'9 years experience', bio:'Entry-test prep specialist who has coached students into top engineering universities.', hex:'#2FD9A0'},
+  {name:'Hina Farooq', subject:'Science', qual:'MPhil Chemistry', exp:'5 years experience', bio:'Runs the academy science lab and coaches the annual science-fair team.', hex:'#FF4FA0'},
+];
+
+const TESTIMONIALS = [
+  {name:'Zainab Iqbal', course:'Web Development graduate', text:'The instructor actually works as a developer — every class felt like real advice, not a textbook.', hex:'#2FB8E6'},
+  {name:'Hamza Sheikh', course:"Computer Science student", text:'Small batch sizes meant I could ask questions without feeling like I was slowing anyone down.', hex:'#7B5CFA'},
+  {name:'Mahnoor Aslam', course:'Graphic Design graduate', text:'I walked out with an actual portfolio, not just a certificate. That got me my first freelance client.', hex:'#FF6B6B'},
+];
+
+const NOTICES = [
+  {title:'Admissions Open — 2026 Session', date:'Last date: 30 Aug 2026', body:'Applications are now open for all six courses starting September 2026. Apply early — seats are limited per batch.'},
+  {title:'Mid-term results published', date:'5 Aug 2026', body:'Mid-term results for the current session are now available. Check with your batch coordinator.'},
+  {title:'Campus closed for public holiday', date:'14 Aug 2026', body:'The academy will remain closed on Independence Day. Regular classes resume the next day.'},
+  {title:'New evening batch — Graphic Design', date:'1 Aug 2026', body:'A new evening batch for Graphic Design starts this month to accommodate working students.'},
+];
+
+const GALLERY_CATEGORIES = ['Campus','Classrooms','Events','Students','Teachers','Sports','Award Ceremonies'];
+const GALLERY_ICONS = {Campus:'🏫',Classrooms:'📝',Events:'🎉',Students:'🧑‍🎓',Teachers:'🧑‍🏫',Sports:'🏆',['Award Ceremonies']:'🥇'};
+const GALLERY_COLORS = ['#7B5CFA','#2FB8E6','#FF6B6B','#FFBB3C','#2FD9A0','#FF4FA0'];
+
+function initials(name){return name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();}
+
+function courseCardHTML(c, compact){
+  return `<div class="course-card">
+    <div class="course-thumb" style="background:${c.hex}22;">${c.icon}</div>
+    <div class="body">
+      <h3>${c.name}</h3>
+      <div class="meta">
+        <span class="chip" style="color:${c.hex};">${c.duration}</span>
+        <span class="chip">${c.fee}</span>
+      </div>
+      <p class="desc">${c.desc}</p>
+      ${compact ? '' : `<ul class="learn">${c.learn.map(l=>`<li>${l}</li>`).join('')}</ul>`}
+    </div>
+    <div class="foot">
+      <span class="teacher">Taught by ${c.teacher}</span>
+      <a class="link-apply" style="color:${c.hex};" onclick="goTo('admissions')">Apply →</a>
+    </div>
+  </div>`;
+}
+
+function teacherCardHTML(t){
+  return `<div class="teacher-card">
+    <div class="avatar" style="background:${t.hex};">${initials(t.name)}</div>
+    <h3>${t.name}</h3>
+    <div class="subject">${t.subject}</div>
+    <div class="qual">${t.qual}</div>
+    <span class="exp">${t.exp}</span>
+    <p class="teacher-bio">${t.bio}</p>
+  </div>`;
+}
+
+function testimonialHTML(t){
+  return `<div class="testi-card">
+    <p>"${t.text}"</p>
+    <div class="testi-foot">
+      <div class="avatar" style="background:${t.hex};">${initials(t.name)}</div>
+      <div><strong>${t.name}</strong><span>${t.course}</span></div>
+    </div>
+  </div>`;
+}
+
+function noticeRowHTML(n){
+  return `<div class="notice-row">
+    <div><h3>${n.title}</h3><p>${n.body}</p></div>
+    <span class="notice-date">${n.date}</span>
+  </div>`;
+}
+
+function render(){
+  document.getElementById('homeCoursesGrid').innerHTML = COURSES.slice(0,3).map(c=>courseCardHTML(c,true)).join('');
+  document.getElementById('allCoursesGrid').innerHTML = COURSES.map(c=>courseCardHTML(c,false)).join('');
+  document.getElementById('homeTeachersGrid').innerHTML = TEACHERS.slice(0,3).map(teacherCardHTML).join('');
+  document.getElementById('allTeachersGrid').innerHTML = TEACHERS.map(teacherCardHTML).join('');
+  document.getElementById('homeTestimonialsGrid').innerHTML = TESTIMONIALS.map(testimonialHTML).join('');
+  document.getElementById('homeNoticesList').innerHTML = NOTICES.slice(0,3).map(noticeRowHTML).join('');
+  document.getElementById('allNoticesList').innerHTML = NOTICES.map(noticeRowHTML).join('');
+
+  const select = document.getElementById('courseSelect');
+  COURSES.forEach(c=>{
+    const opt = document.createElement('option');
+    opt.value = c.id; opt.textContent = c.name;
+    select.appendChild(opt);
+  });
+
+  // gallery
+  let activeCat = 'Campus';
+  const tabsEl = document.getElementById('galleryTabs');
+  const gridEl = document.getElementById('galleryGrid');
+  function renderGallery(){
+    tabsEl.innerHTML = GALLERY_CATEGORIES.map(cat=>`<button class="gtab ${cat===activeCat?'active':''}" data-cat="${cat}">${cat}</button>`).join('');
+    gridEl.innerHTML = Array.from({length:8}).map((_,i)=>{
+      const color = GALLERY_COLORS[i % GALLERY_COLORS.length];
+      return `<div class="gtile" style="background:${color};">${GALLERY_ICONS[activeCat]}</div>`;
+    }).join('');
+    tabsEl.querySelectorAll('.gtab').forEach(btn=>{
+      btn.addEventListener('click', ()=>{ activeCat = btn.dataset.cat; renderGallery(); });
+    });
+  }
+  renderGallery();
+
+  // contact preview on home
+  document.getElementById('homeContactPreview').innerHTML = `
+    <div class="section-head"><span class="eyebrow">Visit us</span><h2>Come see the campus</h2></div>
+    <div class="contact-grid">
+      <div>
+        <div class="contact-item"><div class="ic">📍</div><div><strong>Campus address</strong><span>14 Model Town Road, near City Park</span></div></div>
+        <div class="contact-item"><div class="ic">📞</div><div><strong>Phone</strong><span>+92 300 1234567</span></div></div>
+      </div>
+      <div class="map-box">Google Map embed placeholder</div>
+    </div>`;
+}
+render();
+
+// ---- navigation ----
+function goTo(page){
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+  document.querySelectorAll('nav.links button').forEach(b=>b.classList.toggle('active', b.dataset.page===page));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+document.querySelectorAll('nav.links button').forEach(btn=>{
+  btn.addEventListener('click', ()=>goTo(btn.dataset.page));
+});
+
+// ---- forms (demo only, no backend) ----
+document.getElementById('admissionForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  this.style.display = 'none';
+  document.getElementById('admissionSuccess').classList.add('show');
+});
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  this.style.display = 'none';
+  document.getElementById('contactSuccess').classList.add('show');
+});
+</script>
+
+</body>
+</html>
