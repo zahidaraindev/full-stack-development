@@ -1,1 +1,1 @@
-document.querySelector(".heading").style.color = "blue";
+document.querySelector(".test").style.color = "blue";
